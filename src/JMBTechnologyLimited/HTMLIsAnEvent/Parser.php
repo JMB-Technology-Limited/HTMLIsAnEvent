@@ -29,7 +29,11 @@ class Parser {
 		$dom = new Dom();
 		$dom->load($html, array( 'strict' => false ));
 
+		$idsOfRootElements = array();
+
 		foreach($dom->find('[itemtype="http://schema.org/Event"]') as $node) {
+
+			$idsOfRootElements[] = $node->id();
 
 			$event = new Event();
 
@@ -86,53 +90,56 @@ class Parser {
 
 		foreach($dom->find('.h-event') as $node) {
 
-			$event = new Event();
+			if (!in_array($node->id(), $idsOfRootElements)) {
 
-			$locations = $node->find(".p-location");
-			foreach($locations as $location) {
-				$location->getParent()->removeChild($location->id());
-			}
+				$event = new Event();
 
-
-			$nameContents = $node->find('.p-name');
-			if ($nameContents->count() > 0) {
-				$event->setTitle(html_entity_decode($nameContents[0]->text(true)));
-			}
-
-			$urlContents = $node->find('.u-url a, a.u-url');
-			if ($urlContents->count() > 0) {
-				foreach($urlContents as $urlContent) {
-					$event->addUrl(new URL(html_entity_decode($urlContent->getAttribute("href"))));
+				$locations = $node->find(".p-location");
+				foreach($locations as $location) {
+					$location->getParent()->removeChild($location->id());
 				}
-			}
 
-			$startContents = $node->find('time.dt-start');
-			if ($startContents->count() > 0) {
-				if ($startContents[0]->getAttribute("datetime")) {
-					$event->setStart(new \DateTime($startContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
-				} else if ($startContents[0] instanceof Dom\HtmlNode && $startContents[0]->text(true)) {
-					$event->setStart(new \DateTime($startContents[0]->text(true), new \DateTimeZone("UTC")));
+
+				$nameContents = $node->find('.p-name');
+				if ($nameContents->count() > 0) {
+					$event->setTitle(html_entity_decode($nameContents[0]->text(true)));
 				}
-			}
 
-			$endContents = $node->find('time.dt-end');
-			if ($endContents->count() > 0) {
-				if ($endContents[0]->getAttribute("datetime")) {
-					$event->setEnd(new \DateTime($endContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
-				} else if ($endContents[0] instanceof Dom\HtmlNode && $endContents[0]->text(true)) {
-					$event->setEnd(new \DateTime($endContents[0]->text(true), new \DateTimeZone("UTC")));
+				$urlContents = $node->find('.u-url a, a.u-url');
+				if ($urlContents->count() > 0) {
+					foreach($urlContents as $urlContent) {
+						$event->addUrl(new URL(html_entity_decode($urlContent->getAttribute("href"))));
+					}
 				}
+
+				$startContents = $node->find('time.dt-start');
+				if ($startContents->count() > 0) {
+					if ($startContents[0]->getAttribute("datetime")) {
+						$event->setStart(new \DateTime($startContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+					} else if ($startContents[0] instanceof Dom\HtmlNode && $startContents[0]->text(true)) {
+						$event->setStart(new \DateTime($startContents[0]->text(true), new \DateTimeZone("UTC")));
+					}
+				}
+
+				$endContents = $node->find('time.dt-end');
+				if ($endContents->count() > 0) {
+					if ($endContents[0]->getAttribute("datetime")) {
+						$event->setEnd(new \DateTime($endContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+					} else if ($endContents[0] instanceof Dom\HtmlNode && $endContents[0]->text(true)) {
+						$event->setEnd(new \DateTime($endContents[0]->text(true), new \DateTimeZone("UTC")));
+					}
+				}
+
+				$descriptionContents = $node->find('.p-description');
+				if ($descriptionContents->count() > 0) {
+					$event->setDescriptionText(html_entity_decode($descriptionContents[0]->text(true)));
+					$event->setDescriptionHTML(html_entity_decode($descriptionContents[0]->innerHtml()));
+				}
+
+
+				$this->events[] = $event;
+
 			}
-
-			$descriptionContents = $node->find('.p-description');
-			if ($descriptionContents->count() > 0) {
-				$event->setDescriptionText(html_entity_decode($descriptionContents[0]->text(true)));
-				$event->setDescriptionHTML(html_entity_decode($descriptionContents[0]->innerHtml()));
-			}
-
-
-			$this->events[] = $event;
-
 		}
 
 
