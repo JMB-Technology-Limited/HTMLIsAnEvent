@@ -33,15 +33,16 @@ class Parser {
 
 			$event = new Event();
 
+			//$places = $node->find('[itemtype="http://schema.org/Place"]');
 
 			$nameMetas = $node->find('meta[itemprop="name"]');
-			if ($nameMetas) {
+			if ($nameMetas->count() > 0) {
 				$event->setTitle(html_entity_decode($nameMetas->getAttribute("content")));
-			}
-
-			$nameContents = $node->find('div[itemprop="name"]');
-			if ($nameContents->count() > 0) {
-				$event->setTitle(html_entity_decode($nameContents[0]->text(true)));
+			} else {
+				$nameContents = $node->find('[itemprop="name"]');
+				if ($nameContents->count() > 0) {
+					$event->setTitle(html_entity_decode($nameContents[0]->text(true)));
+				}
 			}
 
 			$urlContents = $node->find('a[itemprop="url"]');
@@ -51,15 +52,24 @@ class Parser {
 				}
 			}
 
-			$startContents = $node->find('time[itemprop="startDate"]');
-			if ($startContents->count() > 0) {
-				$event->setStart(new \DateTime($startContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+			$startMetas = $node->find('meta[itemprop="startDate"]');
+			if ($startMetas->count() > 0) {
+				$event->setStart(new \DateTime($startMetas[0]->getAttribute("content"), new \DateTimeZone("UTC")));
+			} else {
+				$startContents = $node->find('time[itemprop="startDate"]');
+				if ($startContents->count() > 0) {
+					$event->setStart(new \DateTime($startContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+				}
 			}
 
-
-			$endContents = $node->find('time[itemprop="endDate"]');
-			if ($endContents->count() > 0) {
-				$event->setEnd(new \DateTime($endContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+			$endMetas =  $node->find('meta[itemprop="endDate"]');
+			if ($endMetas->count() > 0) {
+				$event->setEnd(new \DateTime($startMetas[0]->getAttribute("content"), new \DateTimeZone("UTC")));
+			} else {
+				$endContents = $node->find('time[itemprop="endDate"]');
+				if ($endContents->count() > 0) {
+					$event->setEnd(new \DateTime($endContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+				}
 			}
 
 			$descriptionContents = $node->find('p[itemprop="description"]');
@@ -77,6 +87,12 @@ class Parser {
 		foreach($dom->find('.h-event') as $node) {
 
 			$event = new Event();
+
+			$locations = $node->find(".p-location");
+			foreach($locations as $location) {
+				$location->getParent()->removeChild($location->id());
+			}
+
 
 			$nameContents = $node->find('.p-name');
 			if ($nameContents->count() > 0) {
