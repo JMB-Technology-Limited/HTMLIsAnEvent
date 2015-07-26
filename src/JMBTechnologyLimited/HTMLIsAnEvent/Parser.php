@@ -51,6 +51,10 @@ class Parser {
 				}
 			}
 
+			$startContents = $node->find('time[itemprop="startDate"]');
+			if ($startContents->count() > 0) {
+				$event->setStart(new \DateTime($startContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+			}
 
 
 			$this->events[] = $event;
@@ -72,6 +76,15 @@ class Parser {
 			if ($urlContents->count() > 0) {
 				foreach($urlContents as $urlContent) {
 					$event->addUrl(new URL(html_entity_decode($urlContent->getAttribute("href"))));
+				}
+			}
+
+			$startContents = $node->find('time.dt-start');
+			if ($startContents->count() > 0) {
+				if ($startContents[0]->getAttribute("datetime")) {
+					$event->setStart(new \DateTime($startContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+				} else if ($startContents[0] instanceof Dom\HtmlNode && $startContents[0]->text(true)) {
+					$event->setStart(new \DateTime($startContents[0]->text(true), new \DateTimeZone("UTC")));
 				}
 			}
 

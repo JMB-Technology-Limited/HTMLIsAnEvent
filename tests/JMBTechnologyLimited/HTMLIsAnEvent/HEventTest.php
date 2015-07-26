@@ -23,6 +23,9 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(3, count($events));
 
+
+		############################### Event
+
 		$event1 = $events[0];
 
 
@@ -35,13 +38,25 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("http://twitter.com/indiewebcamp",$event1->getUrls()[4]->getUrl());
 
 
-		$event2 = $events[1];
+		$this->assertNotNull($event1->getStart());
+		$this->assertEquals("2014-06-28T00:00:00+00:00",$event1->getStart()->format("c"));
+		$this->assertEquals("UTC",$event1->getStart()->getTimezone()->getName());
 
+
+		############################### Event
+
+		$event2 = $events[1];
 
 		$this->assertEquals("IndieWebCampSF",$event2->getTitle());
 		$this->assertEquals(2, $event2->getUrlsCount());
 		$this->assertEquals("http://indiewebcamp.com/2014/SF",$event2->getUrls()[0]->getUrl());
 		$this->assertEquals("irc://irc.freenode.net/indiewebcamp",$event2->getUrls()[1]->getUrl());
+
+		$this->assertNotNull($event2->getStart());
+		$this->assertEquals("2014-03-07T10:00:00-08:00",$event2->getStart()->format("c"));
+		$this->assertEquals("-08:00",$event2->getStart()->getTimezone()->getName());
+
+		############################### Event
 
 		$event3 = $events[2];
 
@@ -51,6 +66,10 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("http://indiewebcamp.com/events/2014-01-15-homebrew-website-club",$event3->getUrls()[0]->getUrl());
 
 
+
+		$this->assertNotNull($event3->getStart());
+		$this->assertEquals("2014-01-15T18:30:00-08:00",$event3->getStart()->format("c"));
+		$this->assertEquals("-08:00",$event3->getStart()->getTimezone()->getName());
 
 
 
