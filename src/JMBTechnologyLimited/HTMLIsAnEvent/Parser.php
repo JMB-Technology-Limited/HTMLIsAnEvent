@@ -46,7 +46,9 @@ class Parser {
 
 			$urlContents = $node->find('a[itemprop="url"]');
 			if ($urlContents->count() > 0) {
-				$event->setUrl(html_entity_decode($urlContents[0]->getAttribute("href")));
+				foreach($urlContents as $urlContent) {
+					$event->addUrl(new URL(html_entity_decode($urlContent->getAttribute("href"))));
+				}
 			}
 
 
@@ -68,7 +70,9 @@ class Parser {
 
 			$urlContents = $node->find('.u-url a, a.u-url');
 			if ($urlContents->count() > 0) {
-				$event->setUrl(html_entity_decode($urlContents[0]->getAttribute("href")));
+				foreach($urlContents as $urlContent) {
+					$event->addUrl(new URL(html_entity_decode($urlContent->getAttribute("href"))));
+				}
 			}
 
 

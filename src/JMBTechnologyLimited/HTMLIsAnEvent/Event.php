@@ -16,7 +16,7 @@ class Event {
 
 	protected $title;
 
-	protected $url;
+	protected $urls = array();
 
 
 	/**
@@ -36,20 +36,26 @@ class Event {
 	}
 
 	/**
-	 * @param mixed $url
+	 * @return mixed
 	 */
-	public function setUrl($url)
+	public function getUrls()
 	{
-		$this->url = $url;
+		return $this->urls;
 	}
 
 	/**
-	 * @return mixed
+	 * @return integer
 	 */
-	public function getUrl()
+	public function getUrlsCount()
 	{
-		return $this->url;
+		return count($this->urls);
 	}
+
+
+	public function addUrl(URL $url) {
+		$this->urls[] = $url;
+	}
+
 
 
 

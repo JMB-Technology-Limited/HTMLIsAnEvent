@@ -52,7 +52,8 @@ class SchemaTest  extends \PHPUnit_Framework_TestCase {
 
 
 		$this->assertEquals("TechMeetup Edinburgh",$event1->getTitle());
-		$this->assertEquals("/event/2595-techmeetup-edinburgh",$event1->getUrl());
+		$this->assertEquals(1, $event1->getUrlsCount());
+		$this->assertEquals("/event/2595-techmeetup-edinburgh",$event1->getUrls()[0]->getUrl());
 
 
 
@@ -60,7 +61,8 @@ class SchemaTest  extends \PHPUnit_Framework_TestCase {
 
 
 		$this->assertEquals("TechMeetup Edinburgh",$event2->getTitle());
-		$this->assertEquals("/event/2596-techmeetup-edinburgh",$event2->getUrl());
+		$this->assertEquals(1, $event2->getUrlsCount());
+		$this->assertEquals("/event/2596-techmeetup-edinburgh",$event2->getUrls()[0]->getUrl());
 
 
 
