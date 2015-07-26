@@ -1,0 +1,2 @@
+In this folder are some HTML pages that are used to load data from during tests.
+These pages are copyright their original owners.
