@@ -64,7 +64,7 @@ class SchemaTest  extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals("TechMeetup Edinburgh",$event1->getTitle());
 		$this->assertEquals(1, $event1->getUrlsCount());
-		$this->assertEquals("/event/2595-techmeetup-edinburgh",$event1->getUrls()[0]->getUrl());
+		$this->assertEquals("http://example.com/event/2595-techmeetup-edinburgh",$event1->getUrls()[0]->getUrl());
 
 		$this->assertNotNull($event1->getStart());
 		$this->assertEquals("2015-07-08T18:30:00+01:00",$event1->getStart()->format("c"));
@@ -84,7 +84,7 @@ class SchemaTest  extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals("TechMeetup Edinburgh",$event2->getTitle());
 		$this->assertEquals(1, $event2->getUrlsCount());
-		$this->assertEquals("/event/2596-techmeetup-edinburgh",$event2->getUrls()[0]->getUrl());
+		$this->assertEquals("http://example.com/event/2596-techmeetup-edinburgh",$event2->getUrls()[0]->getUrl());
 		$this->assertNotNull($event2->getStart());
 		$this->assertEquals("2015-08-12T18:30:00+01:00",$event2->getStart()->format("c"));
 		$this->assertEquals("+01:00",$event2->getStart()->getTimezone()->getName());

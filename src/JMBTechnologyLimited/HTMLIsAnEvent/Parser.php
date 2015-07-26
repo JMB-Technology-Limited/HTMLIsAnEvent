@@ -52,7 +52,7 @@ class Parser {
 			$urlContents = $node->find('a[itemprop="url"]');
 			if ($urlContents->count() > 0) {
 				foreach($urlContents as $urlContent) {
-					$event->addUrl(new URL(html_entity_decode($urlContent->getAttribute("href"))));
+					$event->addUrl(new URL($this->getAbsoluteURL(html_entity_decode($urlContent->getAttribute("href")))));
 				}
 			}
 
@@ -108,7 +108,7 @@ class Parser {
 				$urlContents = $node->find('.u-url a, a.u-url');
 				if ($urlContents->count() > 0) {
 					foreach($urlContents as $urlContent) {
-						$event->addUrl(new URL(html_entity_decode($urlContent->getAttribute("href"))));
+						$event->addUrl(new URL($this->getAbsoluteURL(html_entity_decode($urlContent->getAttribute("href")))));
 					}
 				}
 
@@ -156,6 +156,19 @@ class Parser {
 		return $this->events;
 	}
 
+
+	protected function getAbsoluteURL($url) {
+
+		if (substr($url, 0, 1) == '/') {
+
+			$bits =  explode("/", $this->url);
+			return implode("/", array_slice($bits, 0 ,3)). $url;
+
+		}
+
+
+		return $url;
+	}
 }
 
 
