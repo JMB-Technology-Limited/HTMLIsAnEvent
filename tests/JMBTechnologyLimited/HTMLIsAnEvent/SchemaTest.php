@@ -32,6 +32,10 @@ class SchemaTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("2015-07-25T10:00:00+01:00",$event->getStart()->format("c"));
 		$this->assertEquals("+01:00",$event->getStart()->getTimezone()->getName());
 
+		$this->assertNotNull($event->getEnd());
+		$this->assertEquals("2015-07-26T18:00:00+01:00",$event->getEnd()->format("c"));
+		$this->assertEquals("+01:00",$event->getEnd()->getTimezone()->getName());
+
 
 
 
@@ -63,6 +67,9 @@ class SchemaTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("+01:00",$event1->getStart()->getTimezone()->getName());
 
 
+		$this->assertNull($event1->getEnd());
+
+
 		############################### Event
 
 		$event2 = $events[1];
@@ -74,9 +81,8 @@ class SchemaTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertNotNull($event2->getStart());
 		$this->assertEquals("2015-08-12T18:30:00+01:00",$event2->getStart()->format("c"));
 		$this->assertEquals("+01:00",$event2->getStart()->getTimezone()->getName());
-
-
-
+		
+		$this->assertNull($event2->getEnd());
 
 
 

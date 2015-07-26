@@ -42,6 +42,10 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("2014-06-28T00:00:00+00:00",$event1->getStart()->format("c"));
 		$this->assertEquals("UTC",$event1->getStart()->getTimezone()->getName());
 
+		$this->assertNotNull($event1->getEnd());
+		$this->assertEquals("2014-06-29T00:00:00+00:00",$event1->getEnd()->format("c"));
+		$this->assertEquals("UTC",$event1->getEnd()->getTimezone()->getName());
+
 
 		############################### Event
 
@@ -55,6 +59,10 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertNotNull($event2->getStart());
 		$this->assertEquals("2014-03-07T10:00:00-08:00",$event2->getStart()->format("c"));
 		$this->assertEquals("-08:00",$event2->getStart()->getTimezone()->getName());
+		
+		$this->assertNotNull($event2->getEnd());
+		$this->assertEquals("2014-03-08T18:00:00-08:00",$event2->getEnd()->format("c"));
+		$this->assertEquals("-08:00",$event2->getEnd()->getTimezone()->getName());
 
 		############################### Event
 
@@ -70,6 +78,10 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertNotNull($event3->getStart());
 		$this->assertEquals("2014-01-15T18:30:00-08:00",$event3->getStart()->format("c"));
 		$this->assertEquals("-08:00",$event3->getStart()->getTimezone()->getName());
+
+		$this->assertNotNull($event3->getEnd());
+		$this->assertEquals("2014-01-15T19:30:00-08:00",$event3->getEnd()->format("c"));
+		$this->assertEquals("-08:00",$event3->getEnd()->getTimezone()->getName());
 
 
 

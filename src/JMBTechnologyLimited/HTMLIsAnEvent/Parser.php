@@ -57,6 +57,12 @@ class Parser {
 			}
 
 
+			$endContents = $node->find('time[itemprop="endDate"]');
+			if ($endContents->count() > 0) {
+				$event->setEnd(new \DateTime($endContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+			}
+
+
 			$this->events[] = $event;
 
 		}
@@ -85,6 +91,15 @@ class Parser {
 					$event->setStart(new \DateTime($startContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
 				} else if ($startContents[0] instanceof Dom\HtmlNode && $startContents[0]->text(true)) {
 					$event->setStart(new \DateTime($startContents[0]->text(true), new \DateTimeZone("UTC")));
+				}
+			}
+
+			$endContents = $node->find('time.dt-end');
+			if ($endContents->count() > 0) {
+				if ($endContents[0]->getAttribute("datetime")) {
+					$event->setEnd(new \DateTime($endContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
+				} else if ($endContents[0] instanceof Dom\HtmlNode && $endContents[0]->text(true)) {
+					$event->setEnd(new \DateTime($endContents[0]->text(true), new \DateTimeZone("UTC")));
 				}
 			}
 
