@@ -29,7 +29,7 @@ class Parser {
 		$dom = new Dom();
 		$dom->load($html, array( 'strict' => false ));
 
-		foreach($dom->find('div[itemtype="http://schema.org/Event"], li[itemtype="http://schema.org/Event"]') as $node) {
+		foreach($dom->find('[itemtype="http://schema.org/Event"]') as $node) {
 
 			$event = new Event();
 
