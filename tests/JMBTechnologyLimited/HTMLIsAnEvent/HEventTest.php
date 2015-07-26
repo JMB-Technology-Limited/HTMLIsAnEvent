@@ -96,6 +96,38 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 	}
 
 
+	function testFile2() {
+
+		$parser = new Parser(file_get_contents(__DIR__.DIRECTORY_SEPARATOR."data".DIRECTORY_SEPARATOR."hevent2.html"), "http://example.com");
+
+		$events = $parser->getEvents();
+
+		$this->assertEquals(1, count($events));
+
+
+		############################### Event
+
+		$event1 = $events[0];
+
+
+		$this->assertEquals("Homebrew Website Club",$event1->getTitle());
+		$this->assertEquals(2, $event1->getUrlsCount());
+		$this->assertEquals("http://indiewebcamp.com/events/2015-07-15-homebrew-website-club",$event1->getUrls()[0]->getUrl());
+		$this->assertEquals("https://aaronparecki.com/events/2015/07/15/1/homebrew-website-club",$event1->getUrls()[1]->getUrl());
+
+
+		$this->assertNotNull($event1->getStart());
+		$this->assertEquals("2015-07-15T17:30:00-07:00",$event1->getStart()->format("c"));
+		$this->assertEquals("-07:00",$event1->getStart()->getTimezone()->getName());
+
+		$this->assertNotNull($event1->getEnd());
+		$this->assertEquals("2015-07-15T19:30:00-07:00",$event1->getEnd()->format("c"));
+		$this->assertEquals("-07:00",$event1->getEnd()->getTimezone()->getName());
+
+		$this->assertNull($event1->getDescriptionHtml());
+		$this->assertNull($event1->getDescriptionText());
+
+	}
 
 
 
