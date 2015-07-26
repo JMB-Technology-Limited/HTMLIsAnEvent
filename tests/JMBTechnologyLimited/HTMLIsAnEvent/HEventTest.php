@@ -46,6 +46,8 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("2014-06-29T00:00:00+00:00",$event1->getEnd()->format("c"));
 		$this->assertEquals("UTC",$event1->getEnd()->getTimezone()->getName());
 
+		$this->assertNull($event1->getDescriptionHtml());
+		$this->assertNull($event1->getDescriptionText());
 
 		############################### Event
 
@@ -63,6 +65,9 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertNotNull($event2->getEnd());
 		$this->assertEquals("2014-03-08T18:00:00-08:00",$event2->getEnd()->format("c"));
 		$this->assertEquals("-08:00",$event2->getEnd()->getTimezone()->getName());
+
+		$this->assertEquals("The very first IndieWebCamp in San Francisco. Join us in San Francisco for two days of a BarCamp-style gathering of web creators building and sharing open web technologies to empower users to own their own identities & content, and advance the state of the indie web.",$event2->getDescriptionHtml());
+		$this->assertEquals("The very first IndieWebCamp in San Francisco. Join us in San Francisco for two days of a BarCamp-style gathering of web creators building and sharing open web technologies to empower users to own their own identities & content, and advance the state of the indie web.",$event2->getDescriptionText());
 
 		############################### Event
 
@@ -83,6 +88,8 @@ class HEventTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("2014-01-15T19:30:00-08:00",$event3->getEnd()->format("c"));
 		$this->assertEquals("-08:00",$event3->getEnd()->getTimezone()->getName());
 
+		$this->assertEquals("Are you building your own website? Indie reader? Personal publishing web app? Or some other digital magic-cloud proxy? If so, come on by and join a gathering of people with likeminded interests. Bring your friends that want to start a personal web site. Exchange information, swap ideas, talk shop, help work on a project, whatever... ",$event3->getDescriptionHtml());
+		$this->assertEquals("Are you building your own website? Indie reader? Personal publishing web app? Or some other digital magic-cloud proxy? If so, come on by and join a gathering of people with likeminded interests. Bring your friends that want to start a personal web site. Exchange information, swap ideas, talk shop, help work on a project, whatever...",$event3->getDescriptionText());
 
 
 

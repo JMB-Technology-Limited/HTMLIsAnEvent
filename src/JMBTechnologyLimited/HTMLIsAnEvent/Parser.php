@@ -62,6 +62,11 @@ class Parser {
 				$event->setEnd(new \DateTime($endContents[0]->getAttribute("datetime"), new \DateTimeZone("UTC")));
 			}
 
+			$descriptionContents = $node->find('p[itemprop="description"]');
+			if ($descriptionContents->count() > 0) {
+				$event->setDescriptionText(html_entity_decode($descriptionContents[0]->text(true)));
+				$event->setDescriptionHTML(html_entity_decode($descriptionContents[0]->innerHtml()));
+			}
 
 			$this->events[] = $event;
 
@@ -101,6 +106,12 @@ class Parser {
 				} else if ($endContents[0] instanceof Dom\HtmlNode && $endContents[0]->text(true)) {
 					$event->setEnd(new \DateTime($endContents[0]->text(true), new \DateTimeZone("UTC")));
 				}
+			}
+
+			$descriptionContents = $node->find('.p-description');
+			if ($descriptionContents->count() > 0) {
+				$event->setDescriptionText(html_entity_decode($descriptionContents[0]->text(true)));
+				$event->setDescriptionHTML(html_entity_decode($descriptionContents[0]->innerHtml()));
 			}
 
 

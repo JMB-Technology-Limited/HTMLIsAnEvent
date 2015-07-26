@@ -22,6 +22,10 @@ class Event {
 
 	protected $end;
 
+	protected $descriptionHTML;
+
+	protected $descriptionText;
+
 	/**
 	 * @param mixed $title
 	 */
@@ -89,6 +93,38 @@ class Event {
 	public function getEnd()
 	{
 		return $this->end;
+	}
+
+	/**
+	 * @param mixed $descriptionHTML
+	 */
+	public function setDescriptionHTML($descriptionHTML)
+	{
+		$this->descriptionHTML = $descriptionHTML;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getDescriptionHTML()
+	{
+		return $this->descriptionHTML;
+	}
+
+	/**
+	 * @param mixed $descriptionText
+	 */
+	public function setDescriptionText($descriptionText)
+	{
+		$this->descriptionText = trim($descriptionText);
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getDescriptionText()
+	{
+		return $this->descriptionText;
 	}
 
 
